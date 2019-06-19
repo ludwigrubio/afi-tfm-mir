@@ -1,0 +1,11 @@
+# Ignoring data from tfm-mir
+tfm-mir/data/fma_small
+tfm-mir/data/test_songs
+tfm-mir/data/fma_metadata/*.csv
+tfm-mir/data/fma_metadata/features.pkl
+tfm-mir/data/fma_metadata/tracks.pkl
+tfm-mir/data/fma_metadata/models/*
+Ejemplo-TFM
+
+# Ignoring data from dl app
+tfm-mir/app-deep-learning/data

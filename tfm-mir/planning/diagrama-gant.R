@@ -1,4 +1,8 @@
-library(plotly)
+packages <- c("plotly", "RColorBrewer")
+if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
+  install.packages(setdiff(packages, rownames(installed.packages())))  
+}
+
 
 default.theme <- theme_get()
 source("theme_ludwig.R")

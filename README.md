@@ -8,7 +8,7 @@ This repository contain all files used for final project __TFM__
 
 * __initial-proposal__: Documents of initial idea of the project.
 
-* __papers__: Free papers used as expiration for the project.
+* __papers__: Free papers used as inspiration for the project.
 
 * __tfm-mir__: 
 	
@@ -24,7 +24,10 @@ This repository contain all files used for final project __TFM__
 
 _Python_:
 
-To execute code successfully, load the file __tfm-mir/environment_mir.yml__ in Anaconda to install all needed dependencies for python.
+* To execute code successfully, load the file __tfm-mir/environment_mir.yml__ in Anaconda to install all needed dependencies for python.
+
+* To re-compile APP data and models, load the file __tfm-mir/environment_dl.yml__ in Anaconda to install all needed dependencies for python, and follow
+instruction of README.MD inside __app-deep-learning__ folder.
 
 _R_:
 

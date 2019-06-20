@@ -4,12 +4,12 @@ from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras import backend as K
 from tensorflow.keras.layers import Input, Dense, Lambda, Dropout, Activation, \
-        TimeDistributed, Convolution1D, MaxPooling1D, BatchNormalization, LSTM
+        TimeDistributed, Convolution1D, MaxPooling1D, LSTM
+from tensorflow.keras.callbacks import EarlyStopping
+
 from sklearn.model_selection import train_test_split
-import numpy as np
 import pickle
 from optparse import OptionParser
-from sys import stderr, argv
 import os
 
 
@@ -19,7 +19,7 @@ FILTER_LENGTH = 5
 CONV_FILTER_COUNT = 256
 LSTM_COUNT = 256
 BATCH_SIZE = 32
-EPOCH_COUNT = 4
+EPOCH_COUNT = 60
 
 
 def train_model(data, model_path):
@@ -67,6 +67,8 @@ def train_model(data, model_path):
     model.summary()
 
     print('Training...')
+    
+    earlyStop = EarlyStopping(monitor='val_loss', mode='min', verbose=1)
     model.fit(
         x_train, y_train, batch_size=BATCH_SIZE, epochs=EPOCH_COUNT,
         validation_data=(x_val, y_val), verbose=1, callbacks=[
@@ -76,7 +78,8 @@ def train_model(data, model_path):
             ReduceLROnPlateau(
                 monitor='val_acc', factor=0.5, patience=10, min_delta=0.01,
                 verbose=1
-            )
+            ),
+            earlyStop
         ]
     )
 

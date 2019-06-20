@@ -2,8 +2,23 @@ import numpy as np
 import librosa as lbr
 import tensorflow.keras.backend as K
 
-GENRES = ['blues', 'classical', 'country', 'disco', 'hiphop', 'jazz', 'metal',
-        'pop', 'reggae', 'rock']
+GENRES = ['Hip-Hop',
+ 'Pop',
+ 'Rock',
+ 'Experimental',
+ 'Folk',
+ 'Jazz',
+ 'International',
+ 'Electronic',
+ 'Spoken',
+ 'Soul-RnB',
+ 'Blues',
+ 'Old-Time / Historic',
+ 'Classical',
+ 'Country',
+ 'Instrumental',
+ 'Easy Listening']
+
 WINDOW_SIZE = 2048
 WINDOW_STRIDE = WINDOW_SIZE // 2
 N_MELS = 128

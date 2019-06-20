@@ -1,8 +1,10 @@
-packages <- c("plotly", "RColorBrewer")
+packages <- c("plotly", "RColorBrewer", "ggplot2")
 if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
   install.packages(setdiff(packages, rownames(installed.packages())))  
 }
 
+library(plotly)
+library(ggplot2)
 
 default.theme <- theme_get()
 source("theme_ludwig.R")
@@ -70,7 +72,7 @@ p <- layout(p,
               # Add title
               list(xref = "paper", yref = "paper",
                    x = 0.1, y = 1, xanchor = "left",
-                   text = paste0("Diagrama de Grantt - TFM"),
+                   text = paste0("Diagrama de Gantt - TFM"),
                    font = list(color = "#000000", size = 20),
                    ax = 0, ay = 0,
                    align = "left")

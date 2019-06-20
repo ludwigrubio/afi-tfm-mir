@@ -1,14 +1,16 @@
 var GENRE_TO_COLOR = new Map([
-    ['blues', '#0033cc'],
-    ['classical', '#6600ff'],
-    ['country', '#cc6600'],
-    ['disco', '#ff66cc'],
-    ['hiphop', '#660066'],
-    ['jazz', '#cccc00'],
-    ['metal', '#999966'],
-    ['pop', '#00cc66'],
-    ['reggae', '#ffcc66'],
-    ['rock', '#cc0000']
+    ['blues', '#6B6ECF'],
+    ['classical', '#B5CF6B'],
+    ['country', '#E7BA52'],
+    ['disco', '#D6616B'],
+    ['hiphop', '#CE6DBD'],
+    ['jazz', '#9ECAE1'],
+    ['metal', '#FDAE6B'],
+    ['pop', '#A1D99B'],
+    ['reggae', '#BCBDDC'],
+    ['rock', '#BDBDBD']
+
 ]);
+
 
 var GENRES = Array.from(GENRE_TO_COLOR.keys());

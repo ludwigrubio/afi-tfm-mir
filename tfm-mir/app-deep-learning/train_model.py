@@ -4,7 +4,7 @@ from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras import backend as K
 from tensorflow.keras.layers import Input, Dense, Lambda, Dropout, Activation, \
-        TimeDistributed, Convolution1D, MaxPooling1D, BatchNormalization
+        TimeDistributed, Convolution1D, MaxPooling1D, BatchNormalization, LSTM
 from sklearn.model_selection import train_test_split
 import numpy as np
 import pickle
@@ -12,12 +12,15 @@ from optparse import OptionParser
 from sys import stderr, argv
 import os
 
+
 SEED = 42
 N_LAYERS = 3
 FILTER_LENGTH = 5
 CONV_FILTER_COUNT = 256
+LSTM_COUNT = 256
 BATCH_SIZE = 32
-EPOCH_COUNT = 100
+EPOCH_COUNT = 4
+
 
 def train_model(data, model_path):
     x = data['x']
@@ -31,38 +34,41 @@ def train_model(data, model_path):
     input_shape = (None, n_features)
     model_input = Input(input_shape, name='input')
     layer = model_input
+    
     for i in range(N_LAYERS):
-        # second convolutional layer names are used by extract_filters.py
+        # convolutional layer names are used by extract_filters.py
         layer = Convolution1D(
                 filters=CONV_FILTER_COUNT,
                 kernel_size=FILTER_LENGTH,
                 name='convolution_' + str(i + 1)
             )(layer)
-        layer = BatchNormalization(momentum=0.9)(layer)
         layer = Activation('relu')(layer)
         layer = MaxPooling1D(2)(layer)
-        layer = Dropout(0.5)(layer)
 
+    layer = Dropout(0.5)(layer)
+    layer = LSTM(LSTM_COUNT, return_sequences=True)(layer)
+    layer = Dropout(0.5)(layer)
     layer = TimeDistributed(Dense(len(GENRES)))(layer)
+    layer = Activation('softmax', name='output_realtime')(layer)
     time_distributed_merge_layer = Lambda(
-            function=lambda x: K.mean(x, axis=1), 
+             function=lambda x: K.mean(x, axis=1), 
             output_shape=lambda shape: (shape[0],) + shape[2:],
             name='output_merged'
         )
-    layer = time_distributed_merge_layer(layer)
-    layer = Activation('softmax', name='output_realtime')(layer)
-    model_output = layer
+    model_output = time_distributed_merge_layer(layer)
     model = Model(model_input, model_output)
-    opt = Adam(lr=0.001)
+    opt = Adam(lr=0.0001)
     model.compile(
             loss='categorical_crossentropy',
             optimizer=opt,
             metrics=['accuracy']
-        )
+    )
+    
+    model.summary()
 
     print('Training...')
     model.fit(
-        x_train, y_train, batch_size=BATCH_SIZE, nb_epoch=EPOCH_COUNT,
+        x_train, y_train, batch_size=BATCH_SIZE, epochs=EPOCH_COUNT,
         validation_data=(x_val, y_val), verbose=1, callbacks=[
             ModelCheckpoint(
                 model_path, save_best_only=True, monitor='val_acc', verbose=1

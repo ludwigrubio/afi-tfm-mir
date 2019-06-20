@@ -1,6 +1,6 @@
 # CNN for Live Music Genre Recognition
 
-Convolutional Neural Networks for Live Music Genre Recognition is a app re-implemented based on [https://github.com/deepsound-project/genre-recognition](Deep sound)
+Convolutional Neural Networks for Live Music Genre Recognition is a app re-implemented based on [Deep Learning](https://github.com/deepsound-project/genre-recognition)
 
 ## Demo
 
@@ -32,7 +32,7 @@ cd data
 wget http://opihi.cs.uvic.ca/sound/genres.tar.gz
 tar zxvf genres.tar.gz
 cd ..
-pip install -r requirements.txt
+pip install -r requirements.txt or load __environment_dl.yml__ file in Anaconda.
 python create_data_pickle_fma.py
 python train_model.py
 python model_to_tfjs.py

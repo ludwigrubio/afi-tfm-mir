@@ -36,13 +36,13 @@ function preprocess(data) {
 
 function smooth(prediction) {
     const weights = [
-        0.11, 0.13, 0.17, 0.21, 0.26, 0.33, 0.41, 0.51, 0.64, 0.8, 1
+        0.11, 0.13, 0.15, 0.18, 0.21, 0.26, 0.32, 0.38, 0.42, 0.50, 0.59, 0.61, 0.72, 0.83, 0.93, 1
     ];
     var newPrediction = new Float32Array(prediction.length);
     for(var i = 0; i < prediction.length; ++i) {
         var totalWeight = 0;
         for(var j = 0; j < weights.length; ++j) {
-            const k = i + (j - weights.length + 1) * 10;
+            const k = i + (j - weights.length + 1) * 16;
             if(k >= 0 && k < prediction.length) {
                 newPrediction[i] += weights[j] * prediction[k];
                 totalWeight += weights[j];
@@ -135,7 +135,7 @@ async function sendForm() {
     var wave = new SiriWave({
         width: window.innerWidth,
         height: window.innerHeight / 2,
-        speed: 0.06,
+        speed: 0.03,
         noise: 0.9,
         container: $('#wave').get(0),
         color1: getRandColor(3),

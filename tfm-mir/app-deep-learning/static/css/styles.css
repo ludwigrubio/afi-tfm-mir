@@ -15,17 +15,18 @@ a{
 }
 
 .logo-small {
+	font-family: 'Sofadi One', cursive;
     display: block;
     width: 500px;
     height: 40px;
     margin: 10px auto;
 	padding-top: 20px;
-	font-size: 18px;
+	font-size: 22px;
 
 }
 
 .logo-big {
-	font-family: sans-serif;
+	font-family: 'Sofadi One', cursive;
     font-weight: bold;
     text-transform: uppercase;
     font-style: italic;
@@ -148,7 +149,7 @@ body.loading .modal {
     float: right;
     margin-top: 6%;
     background: rgba(0,0,0,.4);
-    padding: 20px 30px;
+    padding: 12px 12px;
 }
 
 #legend ul {

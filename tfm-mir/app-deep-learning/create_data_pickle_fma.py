@@ -1,13 +1,15 @@
 from common import load_track, GENRES
-import numpy as np
 from math import pi
-import pickle
 from pickle import dump
+from optparse import OptionParser
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import MultiLabelBinarizer
+
+import pickle
 import os
 import pandas as pd
-from optparse import OptionParser
+import numpy as np
 
-TRACK_COUNT = 8000
 
 def get_default_shape(dataset_path):
     tmp_features, _ = load_track(os.path.join(dataset_path,
@@ -25,39 +27,50 @@ def collect_data(dataset_path, metadata_path):
         extracted features, y is a one-hot matrix of genre labels and
         track_paths is a dict of absolute track paths indexed by row indices in
         the x and y matrices
-    '''
-    
-    dataset_path = '../data/fma_small'
-    metadata_path  = '../data/fma_metadata/tracks.pkl'
+    '''   
     
     default_shape = get_default_shape(dataset_path)
+
     tracks = pickle.load(open(metadata_path, 'rb'))
-    tracks = tracks[tracks['set', 'subset'] <= 'small']
+    tracks = tracks[tracks['set', 'subset'] <= 'medium']
     
-    print(tracks.shape)
+    empty_files = np.array(['001486', '005574', '065753', '080391', '098558', 
+                            '098559', '098560', '098571', '099134', '105247',
+                            '108925', '127336', '133297', '143992'])
+    
+    for x in empty_files:
+       tracks = tracks.drop(int(x))
+        
+ 
+    Xst , _, yst, _ = train_test_split(
+    tracks.index, tracks['track','genre_top'], test_size=0.6, random_state=2212,
+    stratify = tracks['track','genre_top'])
+    
+    TRACK_COUNT = Xst.shape[0]
 
     x = np.zeros((TRACK_COUNT,) + default_shape, dtype=np.float32)
     y = np.zeros((TRACK_COUNT, len(GENRES)), dtype=np.float32)
     track_paths = {}
     
-    '''
-    for (genre_index, genre_name) in enumerate(GENRES):
-        for i in range(TRACK_COUNT // len(GENRES)):
-            file_name = '{}/{}.000{}.au'.format(genre_name,
-                    genre_name, str(i).zfill(2))
-            print('Processing', file_name)
-            path = os.path.join(dataset_path, file_name)
-            track_index = genre_index  * (TRACK_COUNT // len(GENRES)) + i
-            x[track_index], _ = load_track(path, default_shape)
-            y[track_index, genre_index] = 1
-            track_paths[track_index] = os.path.abspath(path)
-    '''
+
+    for i in range(TRACK_COUNT):
+        tid_str = '{:06d}'.format(Xst[i])
+        file_name = os.path.join(dataset_path, tid_str[:3], tid_str + '.mp3')
+        print(f"Processing {file_name} - {i}")
+
+        track_index = i 
+        
+        x[track_index], _ = load_track(file_name, default_shape)
+        y[track_index, GENRES.index(yst[i])] = 1
+        track_paths[track_index] = os.path.abspath(file_name)
+    
+
     return (x, y, track_paths)
 
 if __name__ == '__main__':
     parser = OptionParser()
     parser.add_option('-d', '--dataset_path', dest='dataset_path',
-            default=os.path.join(os.path.dirname(__file__), '../data/fma_small'),
+            default=os.path.join(os.path.dirname(__file__), '../data/fma_medium/'),
             help='path to the GTZAN dataset directory', metavar='DATASET_PATH')
     parser.add_option('-m', '--metadata_path', dest='metadata_path',
             default=os.path.join(os.path.dirname(__file__),

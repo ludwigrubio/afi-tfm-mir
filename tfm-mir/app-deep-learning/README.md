@@ -1,6 +1,6 @@
 # CNN for Live Music Genre Recognition
 
-Convolutional Neural Networks for Live Music Genre Recognition is a app re-implemented based on [Deep Learning](https://github.com/deepsound-project/genre-recognition)
+Convolutional Neural Networks for Live Music Genre Recognition is an app re-implemented based on [Deep Sound](https://github.com/deepsound-project/genre-recognition)
 
 ## Demo
 
@@ -17,7 +17,7 @@ docker build -t genre-recognition . && docker run -d -p 8080:80 genre-recognitio
 
 The demo will be accessible at http://0.0.0.0:8080/.
 
-By default, it will use a model pretrained based on small FMA dataset.
+By default, it will use a model pretrained based on small FMA data set.
 
 You can also provide your own model, as long as it matches the input and output architecture of the provided model.
 
@@ -38,4 +38,4 @@ python train_model.py
 python model_to_tfjs.py
 ```
 
-You can "visualize" the filters learned by the convolutional layers using `extract_filters.py`. This script for every neuron extracts and concatenates several chunks resulting in its maximum activation from the tracks of the dataset. By default, it will put the visualizations in the filters/ directory. It requires the GTZAN dataset and its pickled version in the data/ directory. Run the commands above to obtain them. You can control the number of extracted chunks using the --count0 argument. Extracting higher numbers of chunks will be slower.
+You can "visualize" the filters learned by the convolutional layers using `extract_filters.py`. This script for every neuron extracts and concatenates several chunks resulting in its maximum activation from the tracks of the data set. By default, it will put the visualizations in the filters/ directory. It requires the GTZAN data set and its pickled version in the data/ directory. Run the commands above to obtain them. You can control the number of extracted chunks using the --count0 argument. Extracting higher numbers of chunks will be slower.

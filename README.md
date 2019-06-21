@@ -27,7 +27,7 @@ _Python_:
 * To execute code successfully, load the file __tfm-mir/environment_mir.yml__ in Anaconda to install all needed dependencies for python.
 
 * To re-compile APP data and models, load the file __tfm-mir/environment_dl.yml__ in Anaconda to install all needed dependencies for python, and follow
-instruction on README.MD inside __tfm-mir/app-deep-learning__ folder. A _docker_ version is available to run web app.
+instruction on README.md inside __tfm-mir/app-deep-learning__ folder. A _docker_ version is available to run web app.
 
 _R_:
 

@@ -8,6 +8,7 @@ from tensorflow.keras.layers import Input, Dense, Lambda, Dropout, Activation, \
 from tensorflow.keras.callbacks import EarlyStopping
 
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import MinMaxScaler
 import pickle
 from optparse import OptionParser
 import os
@@ -25,7 +26,16 @@ EPOCH_COUNT = 60
 def train_model(data, model_path):
     x = data['x']
     y = data['y']
-    (x_train, x_val, y_train, y_val) = train_test_split(x, y, test_size=0.3,
+    
+    """scaler = MinMaxScaler(feature_range=(-1, 1))
+    
+    print ("Scaling data ...")
+    for val in range(x.shape[0]):
+        x[val] = scaler.fit_transform(x[val])
+        if val%500 == 0 :
+            print(val)
+    """           
+    (x_train, x_val, y_train, y_val) = train_test_split(x, y, test_size=0.2,
             random_state=SEED)
 
     print('Building model...')
@@ -68,7 +78,7 @@ def train_model(data, model_path):
 
     print('Training...')
     
-    earlyStop = EarlyStopping(monitor='val_loss', mode='min', verbose=1)
+    earlyStop = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=2)
     model.fit(
         x_train, y_train, batch_size=BATCH_SIZE, epochs=EPOCH_COUNT,
         validation_data=(x_val, y_val), verbose=1, callbacks=[

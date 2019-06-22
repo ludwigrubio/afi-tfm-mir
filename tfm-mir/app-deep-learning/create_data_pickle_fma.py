@@ -30,9 +30,11 @@ def collect_data(dataset_path, metadata_path):
     '''   
     
     default_shape = get_default_shape(dataset_path)
+    
 
+    metadata_path=  '../data/fma_metadata/tracks.pkl'
     tracks = pickle.load(open(metadata_path, 'rb'))
-    tracks = tracks[tracks['set', 'subset'] <= 'medium']
+    tracks = tracks[tracks['set', 'subset'] <= 'large']
     
     empty_files = np.array(['001486', '005574', '065753', '080391', '098558', 
                             '098559', '098560', '098571', '099134', '105247',
@@ -43,7 +45,7 @@ def collect_data(dataset_path, metadata_path):
         
  
     Xst , _, yst, _ = train_test_split(
-    tracks.index, tracks['track','genre_top'], test_size=0.6, random_state=2212,
+    tracks.index, tracks['track','genre_top'], test_size=0.9, random_state=2212,
     stratify = tracks['track','genre_top'])
     
     TRACK_COUNT = Xst.shape[0]

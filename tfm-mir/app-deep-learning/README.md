@@ -38,4 +38,9 @@ python train_model.py
 python model_to_tfjs.py
 ```
 
+If you want to test one of the three models trained, change `train_model.py` for `train_model_deepsound.py` or `train_model_spotify.py`.
+If you excecute one of this other models, before running `model_to_tfjs.py` be sure the name of the model file .h5 that would be loaded, is the one has been created.
+
 You can "visualize" the filters learned by the convolutional layers using `extract_filters.py`. This script for every neuron extracts and concatenates several chunks resulting in its maximum activation from the tracks of the data set. By default, it will put the visualizations in the filters/ directory. It requires the GTZAN data set and its pickled version in the data/ directory. Run the commands above to obtain them. You can control the number of extracted chunks using the --count0 argument. Extracting higher numbers of chunks will be slower.
+
+To check stats about trained models check `stats.ipynb`.

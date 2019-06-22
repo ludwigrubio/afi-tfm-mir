@@ -36,7 +36,7 @@ function preprocess(data) {
 
 function smooth(prediction) {
     const weights = [
-        0.11, 0.13, 0.15, 0.18, 0.21, 0.26, 0.32, 0.38, 0.42, 0.50, 0.59, 0.61, 0.72, 0.83, 0.93, 1
+		0.10, 0.16, 0.21, 0.27, 0.33, 0.39, 0.45, 0.51, 0.57, 0.63, 0.69, 0.75, 0.81, 0.87, 0.93, 0.99, 1
     ];
     var newPrediction = new Float32Array(prediction.length);
     for(var i = 0; i < prediction.length; ++i) {

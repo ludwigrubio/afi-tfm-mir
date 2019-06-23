@@ -78,7 +78,7 @@ def train_model(data, model_path):
 
     print('Training...')
     
-    earlyStop = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=2)
+    earlyStop = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=4)
     model.fit(
         x_train, y_train, batch_size=BATCH_SIZE, epochs=EPOCH_COUNT,
         validation_data=(x_val, y_val), verbose=1, callbacks=[

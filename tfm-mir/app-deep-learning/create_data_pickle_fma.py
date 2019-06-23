@@ -1,9 +1,7 @@
 from common import load_track, GENRES
-from math import pi
 from pickle import dump
 from optparse import OptionParser
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import MultiLabelBinarizer
 
 import pickle
 import os
@@ -28,13 +26,10 @@ def collect_data(dataset_path, metadata_path):
         track_paths is a dict of absolute track paths indexed by row indices in
         the x and y matrices
     '''   
-    
     default_shape = get_default_shape(dataset_path)
-    
 
-    metadata_path=  '../data/fma_metadata/tracks.pkl'
     tracks = pickle.load(open(metadata_path, 'rb'))
-    tracks = tracks[tracks['set', 'subset'] <= 'large']
+    tracks = tracks[tracks['set', 'subset'] <= 'medium']
     
     empty_files = np.array(['001486', '005574', '065753', '080391', '098558', 
                             '098559', '098560', '098571', '099134', '105247',
@@ -43,27 +38,31 @@ def collect_data(dataset_path, metadata_path):
     for x in empty_files:
        tracks = tracks.drop(int(x))
         
- 
+    tracks.reset_index(inplace= True) 
+    tids = tracks['track_id']
+    
     Xst , _, yst, _ = train_test_split(
-    tracks.index, tracks['track','genre_top'], test_size=0.9, random_state=2212,
-    stratify = tracks['track','genre_top'])
+    tids, tracks['track','genre_top'], test_size=0.6, random_state=2212)
     
     TRACK_COUNT = Xst.shape[0]
 
     x = np.zeros((TRACK_COUNT,) + default_shape, dtype=np.float32)
+
     y = np.zeros((TRACK_COUNT, len(GENRES)), dtype=np.float32)
     track_paths = {}
     
 
     for i in range(TRACK_COUNT):
-        tid_str = '{:06d}'.format(Xst[i])
+
+        tid_str = '{:06d}'.format(Xst.loc[Xst.index[i]])
+        print(tid_str)
         file_name = os.path.join(dataset_path, tid_str[:3], tid_str + '.mp3')
         print(f"Processing {file_name} - {i}")
 
         track_index = i 
         
         x[track_index], _ = load_track(file_name, default_shape)
-        y[track_index, GENRES.index(yst[i])] = 1
+        y[track_index, GENRES.index(yst.loc[yst.index[i]])] = 1
         track_paths[track_index] = os.path.abspath(file_name)
     
 

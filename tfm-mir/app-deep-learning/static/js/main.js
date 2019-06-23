@@ -50,7 +50,7 @@ function smooth(prediction) {
         }
         newPrediction[i] /= totalWeight;
     }
-    return newPrediction;
+    return prediction;
 }
 
 async function process(audio, sampleRate) {

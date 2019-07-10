@@ -4,7 +4,7 @@ Convolutional Neural Networks for Live Music Genre Recognition is an app re-impl
 
 ## Demo
 
-You can see a demo at [https://music.datalud.com](https://music.datalud.com). You can upload a song using the big (and only) button and see the results for yourself. All mp3 files should work fine.
+You can see a demo at [https://datalud.com/music/genre](https://music.datalud.com). You can upload a song using the big (and only) button and see the results for yourself. All mp3 files should work fine.
 
 
 ## Usage
